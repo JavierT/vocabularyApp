@@ -25,8 +25,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -34,13 +39,6 @@ import java.util.List;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -239,35 +237,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mName;
         private final String mPassword;
 
         UserLoginTask(String email, String password) {
-            mEmail = email;
+            mName = email;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+            JSONObject response;
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                JSONObject data = new JSONObject();
+                data.put("action", DBRequest.ACTION_LOGIN);
+                data.put("user", mName);
+                data.put("pass", mPassword);
+                response = DBRequest.send(data);
+                if(response==null) return false;
+                String status = response.getString("status");
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+                if(status.equals("OK")) {
+                    //TODO: Create a new user class and save it's statistics
+                    return true;
+                } else
+                    return false;
 
-            // TODO: register the new account here.
-            return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
 
         @Override
