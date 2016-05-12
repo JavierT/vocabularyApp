@@ -3,6 +3,7 @@ package es.jtresaco.apps.vocabularyquiz;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,14 +33,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static final String PRM_USER="USER";
+    public static final String PRM_SCORE="SCORE";
+    public static final String PRM_ROLE="ROLE";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -225,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addNamesToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(LoginAct.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mNameView.setAdapter(adapter);
@@ -235,7 +239,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, JSONObject> {
 
         private final String mName;
         private final String mPassword;
@@ -246,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected JSONObject doInBackground(Void... params) {
             JSONObject response;
             try {
                 JSONObject data = new JSONObject();
@@ -254,32 +258,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 data.put("user", mName);
                 data.put("pass", mPassword);
                 response = DBRequest.send(data);
-                if(response==null) return false;
-                String status = response.getString("status");
-
-                if(status.equals("OK")) {
-                    //TODO: Create a new user class and save it's statistics
-                    return true;
-                } else
-                    return false;
+                return response;
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return false;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final JSONObject response) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
+            String status = null;
+            boolean error = response==null;
+            Log.d("Database","response is " + response.toString());
+            try {
+                if(!error) {
+                    status = response.getString("status");
+                    if (status.equalsIgnoreCase("OK")) {
+                        Intent intent = new Intent(getApplication(), VocabularyAct.class);
+                        intent.putExtra(PRM_USER, response.getString("name"));
+                        intent.putExtra(PRM_SCORE, response.getString("score"));
+                        intent.putExtra(PRM_ROLE, response.getString("role"));
+                        startActivity(intent);
+                    } else {
+                        error = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                error = true;
+            }
+            Log.d("Database","status, error is " + (error?"true":"false"));
+            if(error) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
         }
 
         @Override
