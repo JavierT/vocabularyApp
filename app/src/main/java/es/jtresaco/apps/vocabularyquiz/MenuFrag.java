@@ -4,6 +4,7 @@ package es.jtresaco.apps.vocabularyquiz;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.TextView;
  * A placeholder fragment containing a simple view.
  */
 public class MenuFrag extends Fragment {
+
+    private static final String LOG_TAG="MenuFrag";
 
     public MenuFrag() {
     }
@@ -27,7 +30,7 @@ public class MenuFrag extends Fragment {
     // Define the events that the fragment will use to communicate
     public interface OnItemSelectedListener {
         // This can be any number of events to be sent to the activity
-        public void onMainActionSelected(ACTIONS action);
+        void onMainActionSelected(ACTIONS action);
     }
 
 
@@ -36,6 +39,7 @@ public class MenuFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(LOG_TAG, LOG_TAG  + "onViewCreated");
         return inflater.inflate(R.layout.fragment_vocabulary, container, false);
 
 
@@ -45,6 +49,7 @@ public class MenuFrag extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        Log.d(LOG_TAG, LOG_TAG  + "onViewCreated");
         // Setup any handles to view objects here
         Button startTest = (Button) view.findViewById(R.id.btnTest);
         startTest.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +62,7 @@ public class MenuFrag extends Fragment {
 
         // Setup any handles to view objects here
         Button addWord = (Button) view.findViewById(R.id.btnTest);
-        startTest.setOnClickListener(new View.OnClickListener() {
+        addWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Open add word fragment

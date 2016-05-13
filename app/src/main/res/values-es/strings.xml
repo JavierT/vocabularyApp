@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mis deberes</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_sign_in">Entrar o registrarse</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="add">Añadir \npalabra</string>
+    <string name="error_field_required">Este campo es obligatorio</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_invalid_email">El nombre es invalido</string>
+    <string name="error_invalid_password">La contraseña es muy corta</string>
+    <string name="hello">Hola</string>
+    <string name="permission_rationale"></string>
+    <string name="prompt_email">Nombre</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="test">Hacer \nexámen</string>
+    <string name="title_activity_vocabulary">Vocabulario</string>
+</resources>

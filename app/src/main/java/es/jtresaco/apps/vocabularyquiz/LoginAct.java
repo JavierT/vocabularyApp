@@ -84,6 +84,13 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        // TEST
+        Intent intent = new Intent(getApplication(), VocabularyAct.class);
+        intent.putExtra(PRM_USER,"Javi");
+        intent.putExtra(PRM_SCORE, "0");
+        intent.putExtra(PRM_ROLE, "admin");
+        startActivity(intent);
     }
 
     private void populateAutoComplete() {
