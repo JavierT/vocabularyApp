@@ -20,5 +20,17 @@
     <string name="hello">Hi</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_newword_fragment">Insert the new word</string>
+    <string name="spanishTitle">Spanish</string>
+    <string name="frenchTitle">French</string>
+    <string name="newSpaWord">Add Spanish Word:</string>
+    <string name="newFreWord">Add French word:</string>
+    <string name="chbAltWord">Add alternative translation</string>
+    <string name="altFrenchTitle">Alternative French translation</string>
+    <string name="altSpaTitle">Alternative Spanish translation</string>
+    <string name="selectLesson">Select lesson</string>
+    <string name="saveWord">Save</string>
+    <string name="savedSuccess">Word saved succesfully</string>
+    <string name="emptyFields">Only alternative values can be empty</string>
+    <string name="errorEmptyField">This field cannot be empty</string>
 </resources>

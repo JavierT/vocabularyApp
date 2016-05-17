@@ -55,7 +55,6 @@ public class MenuFrag extends Fragment {
         startTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Open add word fragment
                 listener.onMainActionSelected(ACTIONS.TEST);
             }
         });
@@ -65,13 +64,11 @@ public class MenuFrag extends Fragment {
         addWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Open add word fragment
                 listener.onMainActionSelected(ACTIONS.NEWWORD);
             }
         });
-        Bundle bundle=getArguments();
 
-        //here is your list array
+        Bundle bundle=getArguments();
         String username = bundle.getString(LoginAct.PRM_USER);
         TextView hi = (TextView) view.findViewById(R.id.txtwelcome);
         hi.setText(hi.getText() + username);
@@ -89,4 +86,5 @@ public class MenuFrag extends Fragment {
                     + " must implement MyListFragment.OnItemSelectedListener");
         }
     }
+
 }

@@ -51,8 +51,7 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
     // UI references.
     private AutoCompleteTextView mNameView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +81,9 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        View loginFormView = findViewById(R.id.login_form);
+        View progressView = findViewById(R.id.login_progress);
+        mProgressBar = new ProgressBar(this, loginFormView, progressView);
 
         // TEST
         Intent intent = new Intent(getApplication(), VocabularyAct.class);
@@ -140,7 +140,8 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+
+            mProgressBar.showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -152,41 +153,7 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
         return password.length() > 4;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -210,7 +177,7 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
         List<String> names = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            names.add(cursor.getString(ProfileQuery.ADDRESS));
+            names.add(cursor.getString(ProfileQuery.NAMES));
             cursor.moveToNext();
         }
 
@@ -224,12 +191,10 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
 
     private interface ProfileQuery {
         String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
+                ContactsContract.CommonDataKinds.Nickname.NAME,
         };
 
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
+        int NAMES = 0;
     }
 
 
@@ -251,8 +216,8 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
         private final String mName;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mName = email;
+        UserLoginTask(String name, String password) {
+            mName = name;
             mPassword = password;
         }
 
@@ -276,8 +241,8 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
         @Override
         protected void onPostExecute(final JSONObject response) {
             mAuthTask = null;
-            showProgress(false);
-            String status = null;
+            mProgressBar.showProgress(false);
+            String status;
             boolean error = response==null;
             Log.d("Database","response is " + response.toString());
             try {
@@ -308,7 +273,7 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            showProgress(false);
+            mProgressBar.showProgress(false);
         }
     }
 }
