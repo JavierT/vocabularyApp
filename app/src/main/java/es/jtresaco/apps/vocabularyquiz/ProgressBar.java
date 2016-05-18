@@ -3,21 +3,20 @@ package es.jtresaco.apps.vocabularyquiz;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 /**
  * Created by javier on 5/17/16.
  */
 public class ProgressBar {
-    private FragmentActivity mActivity;
+    private Resources mResources;
     private View mFormView;
     private View mProgressView;
 
-    public void ProgressBar(FragmentActivity mainActivity, View formView, View progressView) {
-        mActivity = mainActivity;
+    public ProgressBar(Resources resources, View formView, View progressView) {
+        mResources = resources;
         mFormView = formView;
         mProgressView = progressView;
     }
@@ -30,7 +29,7 @@ public class ProgressBar {
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = mActivity.getResources().getInteger(android.R.integer.config_shortAnimTime);
+            int shortAnimTime = mResources.getInteger(android.R.integer.config_shortAnimTime);
 
             mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             mFormView.animate().setDuration(shortAnimTime).alpha(

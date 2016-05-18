@@ -1,0 +1,61 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="es.jtresaco.apps.vocabularyquiz.PlayFrag">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/loading_word"
+            android:id="@+id/txtGuessWord"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/etxtResult"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp">
+
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/circle"
+                android:drawableTop="@android:drawable/ic_menu_help"
+                android:textColor="#fff"
+                android:text="@string/hint"
+                android:id="@+id/btnHint" />
+
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="55dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/circle"
+                android:drawableTop="@android:drawable/ic_media_play"
+                android:textColor="#fff"
+                android:text="@string/next"
+                android:id="@+id/btnNext" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

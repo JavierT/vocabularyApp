@@ -1,8 +1,6 @@
 package es.jtresaco.apps.vocabularyquiz;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -134,23 +131,27 @@ public class NewWordFrag extends Fragment {
 
         @Override
         protected void onPostExecute(final JSONObject response) {
-            showProgress(false);
-            String status = null;
+            //showProgress(false);
+            String status;
             boolean error = response==null;
-            Log.d("Database","response is " + response.toString());
             try {
                 if(!error) {
+                    Log.d("Database","response is " + response.toString());
                     status = response.getString("status");
                     if (status.equalsIgnoreCase("OK")) {
                         Toast.makeText(getActivity().getBaseContext(), R.string.savedSuccess, Toast.LENGTH_SHORT ).show();
                         mFr.setText("");
                         mEs.setText("");
-                        mFrAlt.setText("");
-                        mEsAlt.setText("");
+                        if(mFrAlt.getVisibility() == View.VISIBLE)
+                            mFrAlt.setText("");
+                        if(mEsAlt.getVisibility() == View.VISIBLE)
+                            mEsAlt.setText("");
                         mFr.requestFocus();
                     } else {
                         error = true;
                     }
+                } else {
+                    Log.d("Database","response is null");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -158,17 +159,11 @@ public class NewWordFrag extends Fragment {
             }
             Log.d("Database","status, error is " + (error?"true":"false"));
             if(error) {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                mFr.setError(getString(R.string.error_word_not_saved));
             }
 
         }
 
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
 
 

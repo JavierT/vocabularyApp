@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -83,7 +84,7 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
 
         View loginFormView = findViewById(R.id.login_form);
         View progressView = findViewById(R.id.login_progress);
-        mProgressBar = new ProgressBar(this, loginFormView, progressView);
+        mProgressBar = new ProgressBar(getResources(), loginFormView, progressView);
 
         // TEST
         Intent intent = new Intent(getApplication(), VocabularyAct.class);

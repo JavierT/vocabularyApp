@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 public class VocabularyAct extends AppCompatActivity
         implements MenuFrag.OnItemSelectedListener{
@@ -15,6 +16,9 @@ public class VocabularyAct extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulary);
         Log.d(LOG_TAG, "onCreate VocabularyAct");
+
+        View loginFormView = findViewById(R.id.login_form);
+        View progressView = findViewById(R.id.login_progress);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout

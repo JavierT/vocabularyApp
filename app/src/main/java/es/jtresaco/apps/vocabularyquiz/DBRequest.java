@@ -21,8 +21,10 @@ public class DBRequest {
 
     public static final String ACTION_LOGIN="LOGIN";
     public static final String ACTION_ADDWORD="ADDWORD";
+    public static final String ACTION_GETWORD2 ="GETWORD2";
 
     private static final String LOGIN_URL = "http://www.javiertresaco.com/service/vocabulary/receiver.php";
+
 
 
     protected static JSONObject send(JSONObject data) {
