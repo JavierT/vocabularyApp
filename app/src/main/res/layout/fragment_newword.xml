@@ -1,214 +1,207 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewWordFrag">
+    tools:context=".NewWordFrag"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_newword_fragment"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/spanishTitle"
+        android:id="@+id/txtSpaTitle"
+        android:layout_marginLeft="10dp" />
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/hello_newword_fragment"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp" />
+            android:text="@string/newSpaWord"
+            android:id="@+id/txtNewSpaWord"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/spanishTitle"
-            android:id="@+id/txtSpaTitle"
-            android:layout_marginLeft="10dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/newSpaWord"
-                android:id="@+id/txtNewSpaWord"
-                android:layout_gravity="end"
-                android:textAlignment="viewEnd" />
-
-            <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/etxtNewSpaWord"
-                android:layout_gravity="center_horizontal" />
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/smallcircle"
-                android:drawableTop="@android:drawable/ic_input_add"
-                android:id="@+id/btnAltSpa"
-                android:layout_gravity="center"
-                android:onClick="onAltSpaRequired"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/frenchTitle"
-            android:id="@+id/txtFreTitle"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/newFreWord"
-                android:id="@+id/txtNewFreWord"
-                android:layout_gravity="end"
-                android:textAlignment="viewEnd" />
-
-            <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/etxtNewFreWord"
-                android:layout_gravity="center_horizontal" />.
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/smallcircle"
-                android:drawableTop="@android:drawable/ic_input_add"
-                android:id="@+id/btnAltFre"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/altSpaTitle"
-            android:id="@+id/txtAltSpaTitle"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/layoutAltSpa"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/newSpaWord"
-                android:id="@+id/txtAltSpaWord"
-                android:layout_gravity="end"
-                android:textAlignment="viewEnd" />
-
-            <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/etxtAltSpaWord" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/altFrenchTitle"
-            android:id="@+id/txtAltFreTitle"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp"
-            android:visibility="gone"
-            />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/layoutAltFre"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:visibility="gone"
-            >
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/newFreWord"
-                android:id="@+id/txtAltFreWord"
-                android:layout_gravity="end"
-                android:textAlignment="viewEnd"/>
-
-            <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/etxtAltFreWord" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="15dp"
-            >
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/selectLesson"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/txtLesson"
-                />
-
-            <Spinner
-                android:layout_width="240dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnerLesson"
-                android:layout_gravity="right"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
+            android:id="@+id/etxtNewSpaWord"
+            android:layout_gravity="center_horizontal" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/circle"
-            android:drawableTop="@android:drawable/ic_menu_save"
-            android:text="@string/saveWord"
-            android:id="@+id/btnSave"
-            android:layout_gravity="right"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="4dp"
-            style="?android:attr/buttonStyle" />
-
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/smallcircle"
+            android:drawableTop="@android:drawable/ic_input_add"
+            android:id="@+id/btnAltSpa"
+            android:layout_gravity="center"
+            android:onClick="onAltSpaRequired"/>
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/frenchTitle"
+        android:id="@+id/txtFreTitle"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/newFreWord"
+            android:id="@+id/txtNewFreWord"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtNewFreWord"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/smallcircle"
+            android:drawableTop="@android:drawable/ic_input_add"
+            android:id="@+id/btnAltFre"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/altSpaTitle"
+        android:id="@+id/txtAltSpaTitle"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutAltSpa"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/newSpaWord"
+            android:id="@+id/txtAltSpaWord"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtAltSpaWord" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/altFrenchTitle"
+        android:id="@+id/txtAltFreTitle"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutAltFre"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/newFreWord"
+            android:id="@+id/txtAltFreWord"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd"/>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtAltFreWord" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/selectLesson"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/txtLesson"
+            />
+
+        <Spinner
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerLesson"
+            android:layout_gravity="right"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle"
+        android:drawableTop="@android:drawable/ic_menu_save"
+        android:text="@string/saveWord"
+        android:id="@+id/btnSave"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="4dp"
+        style="?android:attr/buttonStyle" />
 
 
-</FrameLayout>
+</LinearLayout>

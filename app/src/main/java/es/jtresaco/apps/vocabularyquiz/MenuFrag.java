@@ -1,8 +1,10 @@
 package es.jtresaco.apps.vocabularyquiz;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.annotation.TargetApi;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -21,11 +24,11 @@ public class MenuFrag extends Fragment {
     public MenuFrag() {
     }
 
-    public enum ACTIONS {NEWWORD, TEST};
+    public enum ACTIONS {NEWWORD, TEST}
 
-    // Define the listener of the interface type
-    // listener will the activity instance containing fragment
-    private OnItemSelectedListener listener;
+    // Define the mCallback of the interface type
+    // mCallback will the activity instance containing fragment
+    private OnItemSelectedListener mCallback;
 
     // Define the events that the fragment will use to communicate
     public interface OnItemSelectedListener {
@@ -41,8 +44,6 @@ public class MenuFrag extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(LOG_TAG, LOG_TAG  + "onViewCreated");
         return inflater.inflate(R.layout.fragment_vocabulary, container, false);
-
-
     }
 
     // This event is triggered soon after onCreateView().
@@ -55,36 +56,51 @@ public class MenuFrag extends Fragment {
         startTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onMainActionSelected(ACTIONS.TEST);
+                mCallback.onMainActionSelected(ACTIONS.TEST);
             }
         });
 
         // Setup any handles to view objects here
-        Button addWord = (Button) view.findViewById(R.id.btnTest);
+        Button addWord = (Button) view.findViewById(R.id.btnAdd);
         addWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onMainActionSelected(ACTIONS.NEWWORD);
+                mCallback.onMainActionSelected(ACTIONS.NEWWORD);
             }
         });
 
         Bundle bundle=getArguments();
         String username = bundle.getString(LoginAct.PRM_USER);
         TextView hi = (TextView) view.findViewById(R.id.txtwelcome);
-        hi.setText(hi.getText() + username);
+        hi.setText(getString(R.string.hello) + username);
 
     }
 
-    // Store the listener (activity) that will have events fired once the fragment is attached
+    // Store the mCallback (activity) that will have events fired once the fragment is attached
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) context;
-        } else {
-            throw new ClassCastException(context.toString()
-                    + " must implement MyListFragment.OnItemSelectedListener");
+        onAttachToContext(context);
+    }
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
         }
     }
+    protected void onAttachToContext(Context context) {
+        //do what you want / cast fragment listener
+        try {
+            mCallback = (OnItemSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement HomeListener");
+        }
+    }
+
+
 
 }

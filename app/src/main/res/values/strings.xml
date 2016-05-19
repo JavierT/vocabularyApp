@@ -19,7 +19,7 @@
     <string name="test">Test my\nskills</string>
     <string name="hello">Hi</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_newword_fragment">Insert the new word</string>
     <string name="spanishTitle">Spanish</string>
     <string name="frenchTitle">French</string>
@@ -35,7 +35,6 @@
     <string name="errorEmptyField">This field cannot be empty</string>
     <string name="error_word_not_saved">There was an error. Word cannot be saved</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_loading_word">I\'m sorry, the word can\'t be downloaded. Try again.</string>
     <string name="next">Next</string>

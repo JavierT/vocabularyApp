@@ -22,7 +22,7 @@ public class VocabularyAct extends AppCompatActivity
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
-        if (findViewById(R.id.fragment_container_voc) != null) {
+        if (findViewById(R.id.fragment_form) != null) {
             Log.d(LOG_TAG, "fragment_container is not null");
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -38,7 +38,7 @@ public class VocabularyAct extends AppCompatActivity
             Log.d(LOG_TAG, "creating fragment and starting trans");
             // Add the fragment to the 'fragment_container' FrameLayout
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container_voc, firstFragment)
+                    .add(R.id.fragment_form, firstFragment)
                     // Add this transaction to the back stack
                     .addToBackStack("menu")
                     .commit();
@@ -48,15 +48,14 @@ public class VocabularyAct extends AppCompatActivity
     }
 
     // This is implementing the `OnItemSelectedListener` interface methods
-    @Override
     public void onMainActionSelected(MenuFrag.ACTIONS action) {
         if (action == MenuFrag.ACTIONS.TEST) {
-            // TODO
-        } else if(action == MenuFrag.ACTIONS.NEWWORD) {
-
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            //TODO: Change for NEWWORD FRAG
-            ft.replace(R.id.fragment_container_voc, new NewWordFrag());
+            ft.replace(R.id.fragment_form, new PlayFrag());
+            ft.commit();
+        } else if(action == MenuFrag.ACTIONS.NEWWORD) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_form, new NewWordFrag());
             ft.commit();
         }
     }

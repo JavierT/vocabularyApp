@@ -113,6 +113,7 @@ public class PlayFrag extends Fragment {
                 JSONObject data = new JSONObject();
                 data.put("action", DBRequest.ACTION_GETWORD);
                 data.put("amount", 5);
+                data.put("lang","fr");
                 response = DBRequest.send(data);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -161,7 +162,7 @@ public class PlayFrag extends Fragment {
             }
             Log.d("Database","status, error is " + (error?"true":"false"));
             if(error) {
-                Toast.makeText(getContext(),R.string.error_loading_word, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getBaseContext(),R.string.error_loading_word, Toast.LENGTH_LONG).show();
             }
 
         }

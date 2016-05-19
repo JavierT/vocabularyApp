@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,41 +6,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MenuFrag"
-    tools:showIn="@layout/activity_vocabulary">
+    android:orientation="vertical"
+    tools:context=".MenuFrag">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="25dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/hello"
-            android:id="@+id/txtwelcome" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/hello"
+        android:id="@+id/txtwelcome" />
 
-        <Button
-            android:layout_width="125dp"
-            android:layout_height="125dp"
-            android:background="@drawable/circle"
-            android:drawableTop="@android:drawable/ic_menu_myplaces"
-            android:textColor="#fff"
-            android:text="@string/test"
-            android:id="@+id/btnTest"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="45dp" />
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:background="@drawable/circle"
+        android:drawableTop="@android:drawable/ic_menu_myplaces"
+        android:textColor="#fff"
+        android:text="@string/test"
+        android:id="@+id/btnTest"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="45dp" />
 
-        <Button
-            android:layout_width="125dp"
-            android:layout_height="125dp"
-            android:background="@drawable/circle"
-            android:drawableTop="@android:drawable/ic_input_add"
-            android:textColor="#fff"
-            android:text="@string/add"
-            android:id="@+id/btnAdd"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp" />
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:background="@drawable/circle"
+        android:drawableTop="@android:drawable/ic_input_add"
+        android:textColor="#fff"
+        android:text="@string/add"
+        android:id="@+id/btnAdd"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp" />
 
 
-</FrameLayout>
+</LinearLayout>
 
