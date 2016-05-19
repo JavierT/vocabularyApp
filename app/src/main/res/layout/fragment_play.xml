@@ -1,61 +1,60 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
     tools:context="es.jtresaco.apps.vocabularyquiz.PlayFrag">
 
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/loading_word"
+        android:id="@+id/txtGuessWord"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/etxtResult"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp" />
+
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_marginTop="25dp">
 
+        <Button
+            android:layout_width="75dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/circle"
+            android:drawableTop="@android:drawable/ic_menu_help"
+            android:textColor="#fff"
+            android:text="@string/hint"
+            android:id="@+id/btnHint"
+            style="?android:attr/borderlessButtonStyle" />
 
-        <TextView
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/loading_word"
-            android:id="@+id/txtGuessWord"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp" />
-
-        <EditText
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/etxtResult"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="25dp">
-
-            <Button
-                android:layout_width="75dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/circle"
-                android:drawableTop="@android:drawable/ic_menu_help"
-                android:textColor="#fff"
-                android:text="@string/hint"
-                android:id="@+id/btnHint" />
-
-            <Button
-                android:layout_width="75dp"
-                android:layout_height="55dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/circle"
-                android:drawableTop="@android:drawable/ic_media_play"
-                android:textColor="#fff"
-                android:text="@string/next"
-                android:id="@+id/btnNext" />
-        </LinearLayout>
-
+        <Button
+            android:layout_width="75dp"
+            android:layout_height="55dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/circle"
+            android:drawableTop="@android:drawable/ic_media_play"
+            android:textColor="#fff"
+            android:text="@string/check"
+            android:id="@+id/btnNext"
+            style="?android:attr/borderlessButtonStyle" />
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

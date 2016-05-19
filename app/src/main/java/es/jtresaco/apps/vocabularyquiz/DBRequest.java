@@ -21,7 +21,7 @@ public class DBRequest {
 
     public static final String ACTION_LOGIN="LOGIN";
     public static final String ACTION_ADDWORD="ADDWORD";
-    public static final String ACTION_GETWORD2 ="GETWORD2";
+    public static final String ACTION_GETWORD ="GETWORD";
 
     private static final String LOGIN_URL = "http://www.javiertresaco.com/service/vocabulary/receiver.php";
 

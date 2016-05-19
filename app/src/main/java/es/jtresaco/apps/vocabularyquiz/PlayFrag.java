@@ -39,7 +39,7 @@ public class PlayFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mWords = new ArrayList<Word>();
+        mWords = new ArrayList<>();
 
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
@@ -55,22 +55,41 @@ public class PlayFrag extends Fragment {
         final Button btnHint = (Button) view.findViewById(R.id.btnHint);
         btnHint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Do the hint
+                if(mUserWord.getText().toString().startsWith(mWords.get(0).getOriginal())) {
+                    mUserWord.setText(mOriginalWord.getText().subSequence(0,mUserWord.getText().length()));
+                } else {
+                    mUserWord.setText(mOriginalWord.getText().subSequence(0,1));
+                }
             }
         });
 
         final Button btnCheck = (Button) view.findViewById(R.id.btnNext);
-        btnHint.setOnClickListener(new View.OnClickListener() {
+        btnCheck.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mUserWord.getText().equals(mWords.get(0).getTranslation()) ||
-                    (mWords.get(0).hasTranslationAlt() && mUserWord.getText().equals(mWords.get(0).getTranslationAlt()))) {
-                    // Good to go!
-                    Toast.makeText(getActivity().getBaseContext(),R.string.word_success, Toast.LENGTH_SHORT);
-                    btnHint.setText(getString(R.string.next));
+                if(btnHint.getText().toString().equalsIgnoreCase(getString(R.string.next))) {
+                    // new word
+                    mUserWord.setText("");
+                    // Delete used word
+                    mWords.remove(0);
+                    // Use a new one
+                    mOriginalWord.setText(mWords.get(0).getOriginal());
+                    if(mWords.size()==1) {
+                        // Load five more...
+                        mLoadTask = new LoadWordsTask(mOriginalWord);
+                        mLoadTask.execute((Void) null);
+                    }
                 } else {
-                    // Show error, or give more info, as the developer wants...
-                    Toast.makeText(getActivity().getBaseContext(),R.string.word_error, Toast.LENGTH_SHORT);
-                    mUserWord.setTextColor(Color.RED);
+                    if (mUserWord.getText().toString().equals(mWords.get(0).getTranslation()) ||
+                            (mWords.get(0).hasTranslationAlt() && mUserWord.getText().toString().equals(mWords.get(0).getTranslationAlt()))) {
+                        // Good to go!
+                        Toast.makeText(getActivity().getBaseContext(), R.string.word_success, Toast.LENGTH_SHORT).show();
+                        btnHint.setText(getString(R.string.next));
+                        // Raise interface from main activity to increase user score
+                    } else {
+                        // Show error, or give more info, as the developer wants...
+                        Toast.makeText(getActivity().getBaseContext(), R.string.word_error, Toast.LENGTH_SHORT).show();
+                        mUserWord.setTextColor(Color.RED);
+                    }
                 }
 
             }
@@ -92,7 +111,8 @@ public class PlayFrag extends Fragment {
             JSONObject response = null;
             try {
                 JSONObject data = new JSONObject();
-                data.put("action", DBRequest.ACTION_GETWORD2);
+                data.put("action", DBRequest.ACTION_GETWORD);
+                data.put("amount", 5);
                 response = DBRequest.send(data);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -126,8 +146,9 @@ public class PlayFrag extends Fragment {
                             if(obW.has("translationAlt")) newWord.setTranslationAlt(obW.getString("translationAlt"));
                             mWords.add(newWord);
                         }
-                        // Populate the label for the user to guess
-                        mlblOriginal.setText(mWords.get(0).getOriginal());
+                        // Populate the label for the user to guess only if it's empty
+                        if(mlblOriginal.getText().length()==0)
+                            mlblOriginal.setText(mWords.get(0).getOriginal());
                     } else {
                         error = true;
                     }
@@ -140,7 +161,7 @@ public class PlayFrag extends Fragment {
             }
             Log.d("Database","status, error is " + (error?"true":"false"));
             if(error) {
-                Toast.makeText(getContext(),R.string.error_loading_word, Toast.LENGTH_LONG);
+                Toast.makeText(getContext(),R.string.error_loading_word, Toast.LENGTH_LONG).show();
             }
 
         }
