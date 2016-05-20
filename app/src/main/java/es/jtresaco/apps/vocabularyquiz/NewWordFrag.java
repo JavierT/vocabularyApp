@@ -5,8 +5,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,8 +17,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class NewWordFrag extends Fragment {
@@ -36,6 +42,12 @@ public class NewWordFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_newword, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_addword, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -67,6 +79,8 @@ public class NewWordFrag extends Fragment {
         final EditText esAltWord = (EditText) view.findViewById(R.id.etxtAltSpaWord);
         final Spinner lessonSpi = (Spinner) view.findViewById(R.id.spinnerLesson);
         //Fill spinner
+        LoadLessonsTask loadLessons = new LoadLessonsTask(lessonSpi);
+        loadLessons.execute((Void) null);
 
         saveWord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +101,77 @@ public class NewWordFrag extends Fragment {
         });
         frWord.requestFocus();
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    public class LoadLessonsTask extends AsyncTask<Void, Void, JSONObject> {
+
+        private final Spinner mLesson;
+        private JSONObject mData;
+        LoadLessonsTask(Spinner lesson) {
+            mLesson = lesson;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            try {
+                mData = new JSONObject();
+                mData.put("action", DBRequest.ACTION_GETLESSONS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            JSONObject response=null;
+            if(mData != null)
+                response = DBRequest.send(mData);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(final JSONObject response) {
+            //showProgress(false);
+            String status;
+            ArrayAdapter<String> adapter;
+            ArrayList<String> items = new ArrayList<>();
+            boolean error = response==null;
+            try {
+                if(!error) {
+                    Log.d("Database","response is " + response.toString());
+                    status = response.getString("status");
+                    if (status.equalsIgnoreCase("OK")) {
+                        JSONArray arrayW = response.getJSONArray("lessons");
+                        for (int i = 0; i < arrayW.length(); i++) {
+                            JSONObject obW = arrayW.getJSONObject(i);
+                            if(obW== null || !obW.has("name")) {
+                                error = true;
+                                break;
+                            }
+                            items.add(obW.getString("name"));
+                        }
+
+
+
+                    } else {
+                        error = true;
+                    }
+                } else {
+                    Log.d("Database","response is null");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                error = true;
+            }
+            Log.d("Database","status, error is " + (error?"true":"false"));
+            if(error) {
+                items.add(getString(R.string.genericLesson));
+            }
+            adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mLesson.setAdapter(adapter);
+        }
+
     }
 
     public class SaveWordTask extends AsyncTask<Void, Void, JSONObject> {
@@ -111,11 +196,11 @@ public class NewWordFrag extends Fragment {
             try {
                 mData = new JSONObject();
                 mData.put("action", DBRequest.ACTION_ADDWORD);
-                mData.put("fr", mFr.getText());
-                mData.put("fralt", mFrAlt.getText());
-                mData.put("es", mEs.getText());
-                mData.put("esalt", mEsAlt.getText());
-                mData.put("lesson", mLesson.getSelectedItemId());
+                mData.put("fr", mFr.getText().toString().trim());
+                mData.put("fralt", mFrAlt.getText()==null?"":mFrAlt.getText().toString().trim());
+                mData.put("es", mEs.getText().toString().trim());
+                mData.put("esalt", mFrAlt.getText()==null?"":mEsAlt.getText().toString().trim());
+                mData.put("lesson", mLesson.isSelected() ? mLesson.getSelectedItemId() : 1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

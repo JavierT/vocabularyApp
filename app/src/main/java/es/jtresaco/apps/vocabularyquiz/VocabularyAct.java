@@ -1,20 +1,27 @@
 package es.jtresaco.apps.vocabularyquiz;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 public class VocabularyAct extends AppCompatActivity
         implements MenuFrag.OnItemSelectedListener{
 
     private static final String LOG_TAG="VocabularyAct";
+    private Fragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulary);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.voc_toolbar);
+        setSupportActionBar(myToolbar);
         Log.d(LOG_TAG, "onCreate VocabularyAct");
 
         View loginFormView = findViewById(R.id.login_form);
@@ -33,29 +40,30 @@ public class VocabularyAct extends AppCompatActivity
             }*/
 
             // Create a new Fragment to be placed in the activity layout
-            MenuFrag firstFragment = new MenuFrag();
-            firstFragment.setArguments(getIntent().getExtras());
+            mCurrentFragment = new MenuFrag();
+            mCurrentFragment.setArguments(getIntent().getExtras());
             Log.d(LOG_TAG, "creating fragment and starting trans");
             // Add the fragment to the 'fragment_container' FrameLayout
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_form, firstFragment)
+                    .add(R.id.fragment_form, mCurrentFragment)
                     // Add this transaction to the back stack
                     .addToBackStack("menu")
                     .commit();
         }
-
-
     }
+
 
     // This is implementing the `OnItemSelectedListener` interface methods
     public void onMainActionSelected(MenuFrag.ACTIONS action) {
         if (action == MenuFrag.ACTIONS.TEST) {
+            mCurrentFragment = new PlayFrag();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_form, new PlayFrag());
+            ft.replace(R.id.fragment_form, mCurrentFragment);
             ft.commit();
         } else if(action == MenuFrag.ACTIONS.NEWWORD) {
+            mCurrentFragment = new NewWordFrag();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_form, new NewWordFrag());
+            ft.replace(R.id.fragment_form, mCurrentFragment);
             ft.commit();
         }
     }

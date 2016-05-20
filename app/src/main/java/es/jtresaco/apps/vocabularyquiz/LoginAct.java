@@ -245,9 +245,9 @@ public class LoginAct extends AppCompatActivity implements LoaderCallbacks<Curso
             mProgressBar.showProgress(false);
             String status;
             boolean error = response==null;
-            Log.d("Database","response is " + response.toString());
             try {
                 if(!error) {
+                    Log.d("Database","response is " + response  .toString());
                     status = response.getString("status");
                     if (status.equalsIgnoreCase("OK")) {
                         Intent intent = new Intent(getApplication(), VocabularyAct.class);

@@ -52,8 +52,7 @@
             android:background="@drawable/smallcircle"
             android:drawableTop="@android:drawable/ic_input_add"
             android:id="@+id/btnAltSpa"
-            android:layout_gravity="center"
-            android:onClick="onAltSpaRequired"/>
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
@@ -187,7 +186,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinnerLesson"
             android:layout_gravity="right"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:background="#f6ffec" />
     </LinearLayout>
 
     <Button

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class PlayFrag extends Fragment {
     private ArrayList<Word> mWords;
     private LoadWordsTask mLoadTask;
+    private boolean mLoadingWord;
 
     public PlayFrag() {
         // Required empty public constructor
@@ -40,7 +41,7 @@ public class PlayFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mWords = new ArrayList<>();
-
+        mLoadingWord = true;
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
 
@@ -55,10 +56,12 @@ public class PlayFrag extends Fragment {
         final Button btnHint = (Button) view.findViewById(R.id.btnHint);
         btnHint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mUserWord.getText().toString().startsWith(mWords.get(0).getOriginal())) {
-                    mUserWord.setText(mOriginalWord.getText().subSequence(0,mUserWord.getText().length()));
+                if(mWords == null || mWords.size()==0) return;
+                String userinput = mUserWord.getText().toString().toLowerCase().trim();
+                if(userinput.startsWith(mWords.get(0).getTranslation())) {
+                    mUserWord.setText(mWords.get(0).getTranslation().subSequence(0,userinput.length()));
                 } else {
-                    mUserWord.setText(mOriginalWord.getText().subSequence(0,1));
+                    mUserWord.setText(mWords.get(0).getTranslation().subSequence(0,1));
                 }
             }
         });
@@ -66,9 +69,13 @@ public class PlayFrag extends Fragment {
         final Button btnCheck = (Button) view.findViewById(R.id.btnNext);
         btnCheck.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(btnHint.getText().toString().equalsIgnoreCase(getString(R.string.next))) {
+                if(mWords == null || mWords.size()==0) return;
+                Log.d("Checking", "Button is" + btnCheck.getText().toString());
+                if(btnCheck.getText().toString().equals(getString(R.string.next))) {
                     // new word
+                    btnCheck.setText(getString(R.string.check));
                     mUserWord.setText("");
+                    mUserWord.setTextColor(Color.BLACK);
                     // Delete used word
                     mWords.remove(0);
                     // Use a new one
@@ -79,11 +86,16 @@ public class PlayFrag extends Fragment {
                         mLoadTask.execute((Void) null);
                     }
                 } else {
-                    if (mUserWord.getText().toString().equals(mWords.get(0).getTranslation()) ||
-                            (mWords.get(0).hasTranslationAlt() && mUserWord.getText().toString().equals(mWords.get(0).getTranslationAlt()))) {
-                        // Good to go!
+                    String userinput = mUserWord.getText().toString();
+                    if(userinput.length() == 0) return;
+                    userinput = userinput.trim();
+                    // maybe it's good to do toLowerCase(Locale.fr)....
+                    Log.d("Checking", "comparing "+userinput+ " with " + mWords.get(0).getTranslation());
+                    if (userinput.equalsIgnoreCase(mWords.get(0).getTranslation()) ||
+                            (mWords.get(0).hasTranslationAlt() && userinput.equalsIgnoreCase(mWords.get(0).getTranslationAlt()))) {
                         Toast.makeText(getActivity().getBaseContext(), R.string.word_success, Toast.LENGTH_SHORT).show();
-                        btnHint.setText(getString(R.string.next));
+                        mUserWord.setTextColor(Color.GREEN);
+                        btnCheck.setText(getString(R.string.next));
                         // Raise interface from main activity to increase user score
                     } else {
                         // Show error, or give more info, as the developer wants...
@@ -95,6 +107,12 @@ public class PlayFrag extends Fragment {
             }
         });
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        mLoadingWord = true;
+        super.onStart();
     }
 
     public class LoadWordsTask extends AsyncTask<Void, Void, JSONObject> {
@@ -135,7 +153,8 @@ public class PlayFrag extends Fragment {
                         JSONArray arrayW = response.getJSONArray("words");
                         for (int i = 0; i < arrayW.length(); i++) {
                             JSONObject obW = arrayW.getJSONObject(i);
-                            if(obW== null || !obW.has("original") || !obW.has("translation")) {
+                            Log.d("Words", "w: " + obW.toString());
+                            if(!obW.has("original") || !obW.has("translation")) {
                                 error = true;
                                 break;
                             }
@@ -148,8 +167,11 @@ public class PlayFrag extends Fragment {
                             mWords.add(newWord);
                         }
                         // Populate the label for the user to guess only if it's empty
-                        if(mlblOriginal.getText().length()==0)
+                        if(!error && mLoadingWord) {
+                            mLoadingWord = false;
+                            Log.d("Words", "setting new word : " + mWords.get(0).getOriginal());
                             mlblOriginal.setText(mWords.get(0).getOriginal());
+                        }
                     } else {
                         error = true;
                     }

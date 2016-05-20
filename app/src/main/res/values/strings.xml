@@ -44,4 +44,6 @@
     <string name="word_success">Correct!</string>
     <string name="word_error">Oh :( It\'s incorrect</string>
     <string name="check">Check</string>
+    <string name="genericLesson">Generic lesson</string>
+    <string name="action_add_lesson">Add lesson</string>
 </resources>
