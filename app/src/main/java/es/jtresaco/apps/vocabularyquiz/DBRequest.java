@@ -35,7 +35,20 @@ public class DBRequest {
         try {
 
             URL url = new URL(LOGIN_URL);
-            client = (HttpURLConnection) url.openConnection();
+
+            System.setProperty("http.keepAlive", "false");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setUseCaches(false);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestProperty("connection", "close");
+
+            conn.connect();
+
+            /*client = (HttpURLConnection) url.openConnection();
             client.setDoOutput(true);
             client.setDoInput(true);
             client.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -43,9 +56,9 @@ public class DBRequest {
             //client.setFixedLengthStreamingMode(request.toString().getBytes("UTF-8").length);
             client.setReadTimeout(3000);
             client.setConnectTimeout(4000);
-            client.connect();
+            client.connect();*/
 
-            OutputStreamWriter writer = new OutputStreamWriter(client.getOutputStream());
+            OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
             writer.write(data.toString());
             writer.flush();
             writer.close();
@@ -61,7 +74,7 @@ public class DBRequest {
             Log.d(LOG_TAG, "IOException" + e.toString());
             return null;
         } finally {
-            if(client!=null) client.disconnect();
+            //if(client!=null) client.disconnect();
         }
 
         return response;
