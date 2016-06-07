@@ -24,7 +24,7 @@ public class DBRequest {
     public static final String ACTION_GETWORD ="GETWORD";
     public static final String ACTION_GETLESSONS ="GETLESSONS";
 
-    private static final String LOGIN_URL = "http://www.javiertresaco.com/service/vocabulary/receiver.php";
+    private static final String LOGIN_URL = "YOUR OWN WEBSITE HERE";
 
 
 
